@@ -1,0 +1,42 @@
+﻿@model IEnumerable<NewsApp.Models.News>
+
+@{
+    ViewData["Title"] = "News Index";
+}
+
+<h1>News</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.First().Title)</th>
+        <th>@Html.DisplayNameFor(model => model.First().PublishedDate)</th>
+        <th>Categories</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Title)</td>
+            <td>@Html.DisplayFor(modelItem => item.PublishedDate)</td>
+            <td>
+                @if (item.Categories != null && item.Categories.Any())
+                {
+                    @string.Join(", ", item.Categories.Select(c => c.Name))
+                }
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.NewsId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.NewsId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.NewsId">Delete</a>*@
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

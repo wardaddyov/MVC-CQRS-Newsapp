@@ -1,0 +1,28 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# Temporary IDE files
+**/.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Testing results
+**/TestResults/*
+
+# Secret files (add your own)
+**/secrets.json
+
+# Package manager dependencies
+**/node_modules/
+
+# Rider specific cache
+.idea/
+
+# Optionally ignore wwwroot (if not used for static assets)
+#**/wwwroot/
+
+# NuGet packages cache (for global packages)
+**/.nuget/NuGet.Config
+**/.nuget/packages/
