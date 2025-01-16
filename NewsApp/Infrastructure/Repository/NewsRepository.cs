@@ -14,7 +14,7 @@ public class NewsRepository(DataContext context) : INewsRepository
 
     public async Task<News?> GetNewsDetailsById(int id)
     {
-        return await context.News.FindAsync(id);
+        return await context.News.Where(n => n.NewsId == id).Include(n => n.Categories).FirstOrDefaultAsync();
     }
 
     public bool CreateNews(News news)

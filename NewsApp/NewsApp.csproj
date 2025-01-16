@@ -17,8 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Application\Commands\News\" />
-      <Folder Include="Application\Queries\News\" />
       <Folder Include="Infrastructure\" />
     </ItemGroup>
 

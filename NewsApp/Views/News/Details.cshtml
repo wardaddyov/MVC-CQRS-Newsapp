@@ -1,0 +1,65 @@
+﻿@model NewsApp.Models.News
+
+@{
+    ViewData["Title"] = "News Details";
+}
+
+<h1>News Details</h1>
+
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PublishedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.PublishedDate.ToString("f")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class="col-sm-2">
+            Categories
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Categories != null && Model.Categories.Any())
+            {
+                <ul>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li>
+                            <a asp-controller="Category" asp-action="Details" asp-route-id="@category.CategoryId">
+                                @category.Name
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <em>No Categories</em>
+            }
+        </dd>
+    </dl>
+</div>
+
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.NewsId" class="btn btn-warning">Edit</a> |*@
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

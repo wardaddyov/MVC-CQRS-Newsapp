@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NewsApp.Application.Commands;
 using NewsApp.Application.Queries;
+using NewsApp.Application.Queries.Category;
+using NewsApp.Application.Queries.CategoryQueries;
 using NewsApp.Models;
 
 namespace NewsApp.Controllers;
@@ -17,9 +19,9 @@ public class CategoryController(ISender sender) : Controller
     }
 
     // GET: Categories/Details/5
-    public async Task<IActionResult> Details(GetCategoryCommand command)
+    public async Task<IActionResult> Details(GetCategoryQuery query)
     {
-        var category = await sender.Send(command);
+        var category = await sender.Send(query);
 
         if (category == null)
         {
@@ -50,9 +52,9 @@ public class CategoryController(ISender sender) : Controller
     }
     
     // GET: Categories/Edit/5
-    public async Task<IActionResult> Edit(GetCategoryCommand command)
+    public async Task<IActionResult> Edit(GetCategoryQuery query)
     {
-        var category = await sender.Send(command);
+        var category = await sender.Send(query);
         if (category == null)
             return NotFound();
         return View(category);
@@ -95,9 +97,9 @@ public class CategoryController(ISender sender) : Controller
     }
     
     // GET: Categories/Delete/5
-    public async Task<IActionResult> Delete(GetCategoryCommand command)
+    public async Task<IActionResult> Delete(GetCategoryQuery query)
     {
-        var category = await sender.Send(command);
+        var category = await sender.Send(query);
         
         if (category == null)
         {
