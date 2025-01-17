@@ -151,6 +151,11 @@ public class NewsController(ISender sender) : Controller
     private async Task PopulateCategories(int[] selectedCategories = null)
     {
         var categories = await sender.Send(new GetCategoriesQuery());
-        ViewBag.Categories = new MultiSelectList(categories, "CategoryId", "Name", selectedCategories);
+        ViewBag.CategoriesList = categories;
+
+        if (selectedCategories != null)
+        {
+            ViewBag.SelectedCategories = selectedCategories;
+        }
     }
 }

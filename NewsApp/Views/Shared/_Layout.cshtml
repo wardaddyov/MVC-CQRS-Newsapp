@@ -7,6 +7,12 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/10.0.1/default/default-main.css"/>
+    <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.4.1112/js/kendo.all.min.js"></script>
+    
     <link rel="stylesheet" href="~/NewsApp.styles.css" asp-append-version="true"/>
 </head>
 <body>
@@ -44,7 +50,6 @@
         &copy; 2025 - NewsApp - <a href="https://samasoft.net/" target="_blank">Sama Samaneh</a>
     </div>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
