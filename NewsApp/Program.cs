@@ -31,6 +31,23 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Apply database migrations automatically
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<DataContext>();
+        context.Database.Migrate(); // Apply all pending migrations
+    }
+    catch (Exception ex)
+    {
+        // Log the exception (use a proper logging library for production)
+        Console.WriteLine($"An error occurred while migrating the database: {ex.Message}");
+        throw; // Optionally re-throw the exception if necessary
+    }
+}
+
 app.UseHttpsRedirection();
 app.UseRouting();
 
