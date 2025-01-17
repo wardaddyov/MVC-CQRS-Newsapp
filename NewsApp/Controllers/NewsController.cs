@@ -91,33 +91,7 @@ public class NewsController(ISender sender) : Controller
         await PopulateCategories(categories);
         return View(newsToUpdate);
     }
-
-    // GET: News/Delete/5
-    public async Task<IActionResult> Delete(int id)
-    {
-        var news = await sender.Send(new GetSingleNewsQuery(id));
-        if (news == null)
-        {
-            return NotFound();
-        }
-
-        return View(news);
-    }
-
-    // POST: News/Delete/5
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int newsId)
-    {
-        var news = await sender.Send(new GetSingleNewsQuery(newsId));
-
-        if (news == null)
-            return NotFound();
-
-        await sender.Send(new DeleteNewsCommand(news));
-
-        return RedirectToAction(nameof(Index));
-    }
-
+    
     // POST: News/DeleteSelected
     [HttpPost]
     [ValidateAntiForgeryToken]

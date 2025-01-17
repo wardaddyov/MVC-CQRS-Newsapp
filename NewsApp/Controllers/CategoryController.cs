@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NewsApp.Application.Commands;
-using NewsApp.Application.Queries;
 using NewsApp.Application.Queries.Category;
 using NewsApp.Application.Queries.CategoryQueries;
 using NewsApp.Models;
@@ -72,16 +70,6 @@ public class CategoryController(ISender sender) : Controller
         {
             return NotFound();
         }
-
-        /*// Log ModelState Validation State
-        foreach (var key in ModelState.Keys)
-        {
-            var state = ModelState[key];
-            foreach (var error in state.Errors)
-            {
-                Console.WriteLine($"Key: {key}, Error: {error.ErrorMessage}");
-            }
-        }*/
         
         if (ModelState.IsValid)
         {

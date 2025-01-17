@@ -45,9 +45,9 @@
                     <td>@Html.DisplayFor(modelItem => news.Title)</td>
                     <td>@news.PublishedDate.ToString("g")</td>
                     <td>@Html.DisplayFor(modelItem => news.Author)</td>
-                    @*<td>
+                    <td>
                         <a asp-controller="News" asp-action="Details" asp-route-id="@news.NewsId" class="btn btn-info btn-sm">View</a>
-                    </td>*@
+                    </td>
                 </tr>
             }
             </tbody>
