@@ -21,5 +21,5 @@ public class News
     public required string Author { get; set; }
 
     // Navigation property for many-to-many
-    public ICollection<Category> Categories { get; set; }
+    public ICollection<Category>? Categories { get; set; }
 }

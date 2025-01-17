@@ -91,7 +91,7 @@ public class NewsController(ISender sender) : Controller
         await PopulateCategories(categories);
         return View(newsToUpdate);
     }
-    
+
     // GET: News/Delete/5
     public async Task<IActionResult> Delete(int id)
     {
@@ -103,21 +103,50 @@ public class NewsController(ISender sender) : Controller
 
         return View(news);
     }
-    
+
     // POST: News/Delete/5
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int newsId)
     {
         var news = await sender.Send(new GetSingleNewsQuery(newsId));
-        
+
         if (news == null)
             return NotFound();
-        
+
         await sender.Send(new DeleteNewsCommand(news));
-        
+
         return RedirectToAction(nameof(Index));
     }
 
+    // POST: News/DeleteSelected
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteSelected([FromBody] DeleteSelectedViewModel model)
+    {
+        if (model?.NewsIds == null || !model.NewsIds.Any())
+        {
+            return Json(new { success = false, message = "No news items selected." });
+        }
+
+        try
+        {
+            await sender.Send(new DeleteMultipleNewsCommand(model.NewsIds.ToArray()));
+            return Json(new { success = true, deletedNewsIds = model.NewsIds });
+        }
+
+        catch (Exception ex)
+        {
+            // Log the exception (not shown here)
+            return Json(new
+                { success = false, message = "An error occurred while deleting news items. " + ex.Message });
+        }
+    }
+
+    // ViewModel for DeleteSelected
+    public class DeleteSelectedViewModel
+    {
+        public List<int> NewsIds { get; set; }
+    }
 
     private async Task PopulateCategories(int[] selectedCategories = null)
     {

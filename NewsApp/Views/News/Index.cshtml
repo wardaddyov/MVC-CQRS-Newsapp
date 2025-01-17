@@ -1,42 +1,71 @@
 ﻿@model IEnumerable<NewsApp.Models.News>
 
 @{
-    ViewData["Title"] = "News Index";
+    ViewData["Title"] = "News";
 }
 
 <h1>News</h1>
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New News Item</a>
+    <button id="deleteSelectedBtn" class="btn btn-danger">Delete Selected</button>
 </p>
 
-<table class="table">
+<!-- Anti-forgery token -->
+<form id="bulkDeleteForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<table class="table table-striped" id="newsTable">
     <thead>
-    <tr>
-        <th>@Html.DisplayNameFor(model => model.First().Title)</th>
-        <th>@Html.DisplayNameFor(model => model.First().PublishedDate)</th>
-        <th>Categories</th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                <input type="checkbox" id="selectAll" />
+            </th>
+            <th>@Html.DisplayNameFor(model => model.First().Title)</th>
+            <th>@Html.DisplayNameFor(model => model.First().PublishedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.First().Author)</th>
+            <th>Categories</th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
     @foreach (var item in Model)
     {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.Title)</td>
-            <td>@Html.DisplayFor(modelItem => item.PublishedDate)</td>
+        <tr id="newsRow_@item.NewsId">
+            <td>
+                <input type="checkbox" class="selectNews" value="@item.NewsId" />
+            </td>
+            <td>@Html.DisplayFor(m => item.Title)</td>
+            <td>@item.PublishedDate.ToString("g")</td>
+            <td>@Html.DisplayFor(m => item.Author)</td>
             <td>
                 @if (item.Categories != null && item.Categories.Any())
                 {
                     @string.Join(", ", item.Categories.Select(c => c.Name))
                 }
+                else
+                {
+                    <em>No Categories</em>
+                }
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.NewsId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NewsId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NewsId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.NewsId" class="btn btn-info btn-sm">Details</a>
+                <a asp-action="Edit" asp-route-id="@item.NewsId" class="btn btn-warning btn-sm">Edit</a>
+                @*<a asp-action="Delete" asp-route-id="@item.NewsId" class="btn btn-danger btn-sm">Delete</a>*@
             </td>
         </tr>
     }
     </tbody>
 </table>
+
+@section Scripts {
+    <script src="~/js/newsIndex.js"></script>
+}

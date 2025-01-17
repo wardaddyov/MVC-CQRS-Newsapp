@@ -8,7 +8,7 @@ public class GetAllNewsCommandHandler(INewsRepository newsRepository): IRequestH
 {
     public async Task<ICollection<News?>> Handle(GetAllNewsCommand request, CancellationToken cancellationToken)
     {
-        var news = await newsRepository.GetAllNews();
+        var news = await newsRepository.GetAllNewsAsync();
         return news;
     }
 }

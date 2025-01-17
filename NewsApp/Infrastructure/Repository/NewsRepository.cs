@@ -7,12 +7,17 @@ namespace NewsApp.Infrastructure.Repository;
 
 public class NewsRepository(DataContext context) : INewsRepository
 {
-    public async Task<ICollection<News?>> GetAllNews()
+    public async Task<ICollection<News?>> GetAllNewsAsync()
     {
         return await context.News.Include(n=>n.Categories).ToListAsync();
     }
 
-    public async Task<News?> GetNewsDetailsById(int id)
+    public async Task<ICollection<News?>> GetMultipleNewsByIdAsync(int[] ids)
+    {
+        return await context.News.Where(n => ids.Contains(n.NewsId)).ToListAsync();
+    }
+
+    public async Task<News?> GetNewsDetailsByIdAsync(int id)
     {
         return await context.News.Where(n => n.NewsId == id).Include(n => n.Categories).FirstOrDefaultAsync();
     }
@@ -34,7 +39,13 @@ public class NewsRepository(DataContext context) : INewsRepository
         context.News.Remove(news);
         return Save();
     }
-    
+
+    public bool DeleteMultipleNews(News?[] newsArray)
+    {
+        context.News.RemoveRange(newsArray);
+        return Save();
+    }
+
     private bool Save()
     {
         var saved = context.SaveChanges();

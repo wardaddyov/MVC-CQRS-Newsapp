@@ -8,7 +8,7 @@ public class GetSingleNewsQueryHandler(INewsRepository newsRepository): IRequest
 {
     public async Task<News?> Handle(GetSingleNewsQuery request, CancellationToken cancellationToken)
     {
-        var news = await newsRepository.GetNewsDetailsById(request.Id);
+        var news = await newsRepository.GetNewsDetailsByIdAsync(request.Id);
         return news;
     }
 }
