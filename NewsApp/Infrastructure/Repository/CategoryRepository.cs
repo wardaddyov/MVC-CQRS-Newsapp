@@ -9,7 +9,7 @@ public class CategoryRepository(DataContext context) : ICategoryRepository
 {
     public async Task<ICollection<Category?>> GetAllCategories()
     {
-        return await context.Categories.ToListAsync();
+        return await context.Categories.Include(c=>c.NewsItems).ToListAsync();
     }
 
     public async Task<Category?> GetCategoryByIdAsync(int id)
@@ -37,7 +37,12 @@ public class CategoryRepository(DataContext context) : ICategoryRepository
         context.Categories.Remove(category);
         return Save();
     }
-    
+
+    public Task<bool> CategoryExistsWithTheNameAsync(string name)
+    {
+        return context.Categories.AnyAsync(c => c.Name == name);
+    }
+
     private bool Save()
     {
         var saved = context.SaveChanges();

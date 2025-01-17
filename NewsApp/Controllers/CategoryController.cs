@@ -42,13 +42,16 @@ public class CategoryController(ISender sender) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Name,Description")] CreateCategoryCommand command)
     {
-        if (ModelState.IsValid)
-        {
-            await sender.Send(command);
-            return RedirectToAction(nameof(Index));
-        }
+        // check for duplicate name
+        var isDuplicateName = await sender.Send(new CategoryNameQuery(command.Name));
+        if (isDuplicateName)
+            ModelState.AddModelError("Name", "A category with this name already exists.");
 
-        return View(command);
+        if (!ModelState.IsValid) return View(command);
+        
+        await sender.Send(command);
+        return RedirectToAction(nameof(Index));
+
     }
     
     // GET: Categories/Edit/5

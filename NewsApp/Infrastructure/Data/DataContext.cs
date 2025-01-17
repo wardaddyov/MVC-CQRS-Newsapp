@@ -16,6 +16,9 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        // Configure category name unique constraint
+        modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+        
         // Configure many-to-many relationship
         modelBuilder.Entity<News>()
             .HasMany(n => n.Categories)

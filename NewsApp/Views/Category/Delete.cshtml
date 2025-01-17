@@ -40,3 +40,8 @@
         <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </div>
 </form>
+
+<script>
+    // Replace the current state in the browser history with '/news/index' to prevent going back to the delete page
+    history.replaceState(null, '', '/news/index');
+</script>

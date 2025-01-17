@@ -9,4 +9,5 @@ public interface ICategoryRepository
     public bool CreateCategory(Category category);
     public bool UpdateCategory(Category category);
     public bool DeleteCategory(Category category);
+    public Task<bool> CategoryExistsWithTheNameAsync(string name);
 }

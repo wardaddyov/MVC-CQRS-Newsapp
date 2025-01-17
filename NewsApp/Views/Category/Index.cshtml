@@ -7,6 +7,7 @@
 <h1>Categories</h1>
 
 <p>
+    <a asp-controller="News" asp-action="Index" class="btn btn-secondary">Manage News Articles</a>
     <a asp-action="Create" class="btn btn-primary">Create New Category</a>
 </p>
 
@@ -24,7 +25,7 @@
     @foreach (var category in Model)
     {
         <tr>
-            <th>@Html.DisplayFor(model => model.First().CategoryId)</th>
+            <th>@Html.DisplayFor(model => category.CategoryId)</th>
             <td>@Html.DisplayFor(m => category.Name)</td>
             <td>@Html.DisplayFor(m => category.Description)</td>
             <td>@(category.NewsItems != null ? category.NewsItems.Count() : 0)</td>

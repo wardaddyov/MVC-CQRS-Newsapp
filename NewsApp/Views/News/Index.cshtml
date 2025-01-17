@@ -14,7 +14,8 @@
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New News Item</a>
+    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Manage Categories</a>
+    <a asp-action="Create" class="btn btn-primary">Create News Article</a>
     <button id="deleteSelectedBtn" class="btn btn-danger">Delete Selected</button>
 </p>
 
@@ -44,7 +45,7 @@
                 <input type="checkbox" class="selectNews" value="@item.NewsId" />
             </td>
             <td>@Html.DisplayFor(m => item.Title)</td>
-            <td>@item.PublishedDate.ToString("g")</td>
+            <td>@item.PublishedDate.ToString("d")</td>
             <td>@Html.DisplayFor(m => item.Author)</td>
             <td>
                 @if (item.Categories != null && item.Categories.Any())
