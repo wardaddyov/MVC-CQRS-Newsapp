@@ -12,32 +12,55 @@
     <div class="col-md-8">
         <form asp-action="Edit" method="post">
             <input type="hidden" asp-for="NewsId" />
+            
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Content" class="control-label"></label>
                 <textarea asp-for="Content" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="PublishedDate" class="control-label"></label>
                 <input asp-for="PublishedDate" class="form-control" type="date" />
                 <span asp-validation-for="PublishedDate" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
                 <label asp-for="Author" class="control-label"></label>
                 <input asp-for="Author" class="form-control" />
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
+            
             <div class="form-group">
-                <label>Categories</label>
-                <select asp-for="Categories" class="form-control" asp-items="ViewBag.Categories" multiple="multiple">
+                <label for="categorySelect">Categories</label>
+                <select id="categorySelect" name="categories" class="form-control" multiple="multiple">
+                    @foreach (var cat in (IEnumerable<NewsApp.Models.Category>)ViewBag.CategoriesList)
+                    {
+                        // Determine if the current category should be selected
+                        var isSelected = ViewBag.SelectedCategories != null 
+                                         && ((int[])ViewBag.SelectedCategories).Contains(cat.CategoryId);
+                        @if (isSelected == true)
+                        {
+                            <option value="@cat.CategoryId" selected="selected">@cat.Name</option>    
+                        }
+                        @if (isSelected == false)
+                        {
+                            <option value="@cat.CategoryId">@cat.Name</option>    
+
+                        }
+                        
+                        
+                    }
                 </select>
                 <span asp-validation-for="Categories" class="text-danger"></span>
             </div>
+            
             <div class="form-group mt-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a asp-action="Index" class="btn btn-secondary">Cancel</a>
@@ -48,4 +71,20 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Kendo MultiSelect
+            $("#categorySelect").kendoMultiSelect({
+                placeholder: "Select categories...",
+                dataTextField: "Name",
+                dataValueField: "CategoryId",
+                // Optionally, you can configure additional settings here
+                // For example, enable filtering:
+                // filter: "startswith",
+                // autoClose: false,
+                // etc.
+            });
+        });
+    </script>
 }
