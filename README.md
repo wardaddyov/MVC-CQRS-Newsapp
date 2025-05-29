@@ -1,8 +1,8 @@
 ![mainImage](https://github.com/user-attachments/assets/a44a0c15-bfff-4d72-b5a3-f7333494a32b)
 
 <div align="center">
-  <strong>A code first MVC + CQRS application</strong>
-  <strong><br>With enhance visuals with Bootstrap and KendoUI</strong>
+   <strong>A code first MVC + CQRS application</strong>
+   <strong><br>With enhance visuals with Bootstrap and KendoUI</strong>
 </div>
 
 
