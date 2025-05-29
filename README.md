@@ -3,7 +3,6 @@
 <div align="center">
   <strong>A code first MVC + CQRS application</strong>
   <strong><br>With enhance visuals with Bootstrap and KendoUI</strong>
-  <strong><br>Accessible at https://zagros.site/</strong>
 </div>
 
 
