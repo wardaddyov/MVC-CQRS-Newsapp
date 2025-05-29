@@ -26,8 +26,7 @@ jobs:
       id: docker_build
       uses: docker/build-push-action@v5
       with:
-        context: .
-        file: NewsApp/Dockerfile    
+        context: ./NewsApp   
         push: true
         tags: wardaddyov/newsapp:latest # Replace 'your-app-name'
         cache-from: type=gha
