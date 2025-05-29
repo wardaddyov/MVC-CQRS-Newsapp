@@ -1,0 +1,70 @@
+name: Deploy .NET 9 App to VPS (Password Auth - AVOID IN PRODUCTION)
+
+on:
+  push:
+    branches:
+      - main # Or whatever branch you use for production
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and push Docker image
+      id: docker_build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest # Replace 'your-app-name'
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.1 # Using a popular SSH action
+      with:
+        host: ${{ secrets.VPS_SSH_HOST }}
+        username: ${{ secrets.VPS_SSH_USERNAME }}
+        password: ${{ secrets.VPS_SSH_PASSWORD }} # *** THIS IS THE CHANGE FOR PASSWORD AUTH ***
+        script: |
+          echo "Connecting to VPS and deploying..."
+          # Log in to Docker Hub on VPS
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          
+          # Stop and remove existing container if it's running
+          if [ "$(docker ps -q -f name=your-app-container-name)" ]; then
+            echo "Stopping existing container..."
+            docker stop your-app-container-name
+            echo "Removing existing container..."
+            docker rm your-app-container-name
+          fi
+          
+          # Pull the latest Docker image
+          echo "Pulling latest Docker image..."
+          docker pull ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest # Replace 'your-app-name'
+          
+          # Remove old unused images (optional, helps save space)
+          echo "Cleaning up old images..."
+          docker image prune -f
+          
+          # Run the new container
+          echo "Running new container..."
+          docker run -d \
+            --name your-app-container-name \ # Choose a unique name for your container
+            -p 80:8080 \ # Map VPS port 80 to container port 8080 (ASP.NET Core default)
+            --restart always \ # Automatically restart if container stops
+            ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest
+          
+          echo "Deployment complete!"
