@@ -19,8 +19,8 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        username: wardaddyov
+        password: dckr_pat_vrPMO9bIGvhamVoedlFcFwELDxk
 
     - name: Build and push Docker image
       id: docker_build
@@ -28,32 +28,32 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest # Replace 'your-app-name'
+        tags: wardaddyov/newsapp:latest # Replace 'your-app-name'
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
     - name: Deploy to VPS
       uses: appleboy/ssh-action@v1.0.1 # Using a popular SSH action
       with:
-        host: ${{ secrets.VPS_SSH_HOST }}
-        username: ${{ secrets.VPS_SSH_USERNAME }}
-        password: ${{ secrets.VPS_SSH_PASSWORD }} # *** THIS IS THE CHANGE FOR PASSWORD AUTH ***
+        host: 31.56.227.84
+        username: root
+        password: July*2002 # *** THIS IS THE CHANGE FOR PASSWORD AUTH ***
         script: |
           echo "Connecting to VPS and deploying..."
           # Log in to Docker Hub on VPS
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker login -u root -p July*2002
           
           # Stop and remove existing container if it's running
-          if [ "$(docker ps -q -f name=your-app-container-name)" ]; then
+          if [ "$(docker ps -q -f name=newsapp)" ]; then
             echo "Stopping existing container..."
-            docker stop your-app-container-name
+            docker stop newsapp
             echo "Removing existing container..."
-            docker rm your-app-container-name
+            docker rm newsapp
           fi
           
           # Pull the latest Docker image
           echo "Pulling latest Docker image..."
-          docker pull ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest # Replace 'your-app-name'
+          docker pull wardaddyov/newsapp:latest # Replace 'your-app-name'
           
           # Remove old unused images (optional, helps save space)
           echo "Cleaning up old images..."
@@ -65,6 +65,6 @@ jobs:
             --name your-app-container-name \ # Choose a unique name for your container
             -p 80:8080 \ # Map VPS port 80 to container port 8080 (ASP.NET Core default)
             --restart always \ # Automatically restart if container stops
-            ${{ secrets.DOCKER_USERNAME }}/your-app-name:latest
+            $wardaddyov/newsapp:latest
           
           echo "Deployment complete!"
