@@ -61,10 +61,6 @@ jobs:
           
           # Run the new container
           echo "Running new container..."
-          docker run -d \
-            --name newsapp \ # Choose a unique name for your container
-            -p 80:8080 \ # Map VPS port 80 to container port 8080 (ASP.NET Core default)
-            --restart always \ # Automatically restart if container stops
-            $wardaddyov/newsapp:latest
+          docker run -d --name newsapp -p 81:8080 --restart always wardaddyov/newsapp:latest
           
           echo "Deployment complete!"
