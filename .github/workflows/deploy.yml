@@ -3,7 +3,7 @@ name: Deploy .NET 9 App to VPS (Password Auth - AVOID IN PRODUCTION)
 on:
   push:
     branches:
-      - main # Or whatever branch you use for production
+      - master # Or whatever branch you use for production
 
 jobs:
   build-and-deploy:
